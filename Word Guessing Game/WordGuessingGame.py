@@ -40,9 +40,6 @@ def random_word():
     else:
         usedwords.append(Word)
 
-
-    
-
     global Length
     # Get the length of the word
     Length = len(Word)
