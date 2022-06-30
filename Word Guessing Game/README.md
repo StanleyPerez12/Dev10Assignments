@@ -1,4 +1,4 @@
-Stanley's Word Guessing Game 
+<h1>Stanley's Word Guessing Game</h1> 
 
 Test your skills with this word guessing game created with python. Make sure to download both files and be in the correct directory in order to play. Enjoy!
 
