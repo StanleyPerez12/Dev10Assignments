@@ -1,9 +1,6 @@
 import random
-import threading
-
 
 PlayersList = []
-usedwords = []
 round = 1
 guesses = 3
 vowelguesses = 1
@@ -138,6 +135,7 @@ def readwheeldata():
 def random_word():
 
     global usedwords
+
     with open('/Users/stanleyperez/Documents/Dev10/PythonAssignments/Wheel of Fortune/Data TXT Files/dictionary.txt', 'r') as File:
         words = File.readlines()
 
@@ -153,35 +151,28 @@ def random_word():
     word = random.choice(words_modified)
     word = word.lower()
 
-    # add random word to usedwords list so no word is repeated
-    usedwords.append(word)
+    # underscore used to keep track of correctly guessed words
+    global underscore
+    underscore = "_" * len(word)
 
-    if word in usedwords:
-        random_word()
+    #create list from random word to modify each letter as an index
+    global underscorelist
+    underscorelist = list(underscore)
+
+    # choose random player to determine who will start the game
+    startingplayer = random.choice(PlayersList)
+    print("The player who will start the game is " + startingplayer)
+    print(word)
+
+    # determine which players function to run first depending on which player was chosen to start
+    if PlayersList.index(startingplayer) == 0:
+        player1turn(startingplayer)
+    elif PlayersList.index(startingplayer) == 1:
+        player2turn(startingplayer)
+    elif PlayersList.index(startingplayer) == 2:
+        player3turn(startingplayer)
     else:
-
-        # underscore used to keep track of correctly guessed words
-        global underscore
-        underscore = "_" * len(word)
-
-        #create list from random word to modify each letter as an index
-        global underscorelist
-        underscorelist = list(underscore)
-
-        # choose random player to determine who will start the game
-        startingplayer = random.choice(PlayersList)
-        print("The player who will start the game is " + startingplayer)
-        print(word)
-
-        # determine which players function to run first depending on which player was chosen to start
-        if PlayersList.index(startingplayer) == 0:
-            player1turn(startingplayer)
-        elif PlayersList.index(startingplayer) == 1:
-            player2turn(startingplayer)
-        elif PlayersList.index(startingplayer) == 2:
-            player3turn(startingplayer)
-        else:
-            print("There was an error")
+        print("There was an error")
 
 #function for when the player has to decide what to do
 def whatwouldplayerliketodo(x) : 
@@ -564,13 +555,13 @@ def round2(x):
             print("something went wrong at round 2 function of second round")
 
 #function to determine who is moving on to round 3
-def round3player():
+def round3player(x):
 
     maxmoney = max(rounddict.values())
     winningplayer = max(rounddict, key=rounddict.get)
 
     print("The player advancing to round 3 with a whopping $" + str(maxmoney) + " is " + winningplayer + "!" )
-    print("Is " + x + " Ready for a chance at $1,000,000?")
+    print("Is " + PlayersList[x] + " Ready for a chance at $1,000,000?")
     round3(winningplayer)
 
 #function for round 3
@@ -857,5 +848,5 @@ def round3guess(x, word):
     playerguess(x,word)
 
 if __name__ == '__main__':    
-    start_up()
+start_up()
 
