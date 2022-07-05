@@ -542,15 +542,15 @@ def round2(x):
         if x == 0:
             print(PlayersList[0] + " wins $" + str(player1Bank))
             rounddict[PlayersList[0]] = player1Bank
-            round3player()
+            round3player(x)
         elif x == 1:
             print(PlayersList[1] + " wins $" + str(player2Bank))
             rounddict[PlayersList[1]] = player2Bank
-            round3player()
+            round3player(x)
         elif x == 2:
             print(PlayersList[2] + " wins $" + str(player3Bank))
             rounddict[PlayersList[2]] = player3Bank
-            round3player()
+            round3player(x)
         else:
             print("something went wrong at round 2 function of second round")
 
@@ -588,21 +588,19 @@ def round3(x):
     word = word.lower()
     print(word)
 
-    if word in usedwords:
-        round3(x)
-    else:
 
-        # underscore used to keep track of correctly guessed words
 
-        underscore = "_" * len(word)
+    # underscore used to keep track of correctly guessed words
 
-        #create list from random word to modify each letter as an index
+    underscore = "_" * len(word)
 
-        underscorelist = list(underscore)
+    #create list from random word to modify each letter as an index
 
-        print("The word has " + str(len(word)) + " letters in it")
+    underscorelist = list(underscore)
 
-        lettersrevealed(word, x)
+    print("The word has " + str(len(word)) + " letters in it")
+
+    lettersrevealed(word, x)
 
 #function to show the letters to be revealed in the word for round 3
 def lettersrevealed(word, x):
@@ -826,6 +824,7 @@ def round3guess(x, word):
                         print("Congratulations! You've won $1,000,000! The word was " + word)
                     else:
                         print(guess + " was in the word")
+                        print(underscore)
                         round3guess(x,word)
             else: 
                 guesses = guesses - 1
@@ -835,7 +834,7 @@ def round3guess(x, word):
 
     def finalguess(x,y):
         
-
+        
         finalanswer = input("What is the word? ")
         finalanswer = finalanswer.lower()
         print(underscore)
@@ -848,5 +847,5 @@ def round3guess(x, word):
     playerguess(x,word)
 
 if __name__ == '__main__':    
-start_up()
+    start_up()
 
