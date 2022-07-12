@@ -304,6 +304,56 @@ def viewholidays():
     if len(week) == 0:
         week = date.today()
         week = week.isocalendar()[1]
+
+        #get the dates for that week 
+        weekyear = Week(int(year),int(week))
+        
+        #get the sunday and monday in order to establish a range of dates
+        monday = weekyear.monday()
+        sunday = weekyear.sunday()
+        
+        delta = sunday - monday
+
+        days = [monday + timedelta(days=i) for i in range (delta.days + 1)]
+
+        #enter the range of dates into a list
+        rangedates = []
+
+        #add the dates to rangedates
+        for day in days:
+            day = day.strftime("%b %d %Y")
+            rangedates.append(day)
+
+        #open json containing all of the holidays
+        f = open('allholidays.json')
+        data = json.load(f)
+
+        #create a list of values that show the values of the given year
+        listofvalues = [value for elem in data[year] for value in elem.values()]
+
+        #create a list that intersects all the dates that both lists have in common
+        finallist = list(set(rangedates).intersection(listofvalues))
+
+        #sort the dates
+        finallist.sort(key=lambda date: datetime.strptime(date, "%b %d %Y"))
+
+        #blank list to store what would be shown to user
+        holidaylist = []
+
+
+        print("These are the holidays for " + str(year) + " week #" + str(week) + ":")
+
+        #get the index of the holiday for the given week in the json file 
+        for i in range(len(finallist)):
+            
+            holidayindex = next((index for (index, d) in enumerate(data[year]) if d["date"] == finallist[i]))
+
+            #append to holiday list 
+            holidaylist.append((data[year][holidayindex]['name'] + " (" + data[year][holidayindex]['date'] + ")"))
+
+        for i in holidaylist:
+            print(i)
+            
     elif int(week) not in range(1,53):
         print("Enter a number 1 - 52 ")
         viewholidays()
@@ -356,8 +406,13 @@ def viewholidays():
             holidaylist.append((data[year][holidayindex]['name'] + " (" + data[year][holidayindex]['date'] + ")"))
 
         #print the holidays for the given week
-        for i in holidaylist:
-            print(i)
+        if len(holidaylist) == 0:
+            print("No holidays for this week")
+        else:
+            print("This didn't work")
+            for i in holidaylist:
+                print(i)
+
             
 def weekofweather():
 
